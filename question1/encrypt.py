@@ -20,7 +20,9 @@ def main():
 
     write_file("encrypted_text.txt", encrypted)
 
-    print("Encryption complete. Check encrypted_text.txt")
+    decrypt_file(shift1, shift2)
+
+    print("Encryption and decryption complete.")
 
 
 
@@ -29,7 +31,7 @@ def encrypt_char(c, shift1, shift2):
         if 'a' <= c <= 'm':
             shift = shift1 * shift2
             return chr((ord(c) - ord('a') + shift) % 26 + ord('a'))
-        else:
+        elif 'n' <= c <= 'z':
             shift = shift1 + shift2
             return chr((ord(c) - ord('a') - shift) % 26 + ord('a'))
 
@@ -37,12 +39,66 @@ def encrypt_char(c, shift1, shift2):
         if 'A' <= c <= 'M':
             shift = shift1
             return chr((ord(c) - ord('A') - shift) % 26 + ord('A'))
-        else:
+        elif 'N' <= c <= 'Z':
             shift = shift2 ** 2
             return chr((ord(c) - ord('A') + shift) % 26 + ord('A'))
 
-    else:
-        return c
+    return c   
+        
+
+def decrypt_char(c, shift1, shift2):
+    if c.islower():
+        if 'a' <= c <= 'm':
+            shift = shift1 * shift2
+            return chr((ord(c) - ord('a') - shift) % 26 + ord('a'))
+        elif 'n' <= c <= 'z':
+            shift = shift1 + shift2
+            return chr((ord(c) - ord('a') + shift) % 26 + ord('a'))
+
+    elif c.isupper():
+        if 'A' <= c <= 'M':
+            shift = shift1
+            return chr((ord(c) - ord('A') + shift) % 26 + ord('A'))
+        elif 'N' <= c <= 'Z':
+            shift = shift2 ** 2
+            return chr((ord(c) - ord('A') - shift) % 26 + ord('A'))
+
+    return c
+
+
+def decrypt_file(shift1, shift2):
+    text = read_file_from("encrypted_text.txt")
+
+    decrypted = ""
+    for c in text:
+        decrypted += decrypt_char(c, shift1, shift2)
+
+    write_file("decrypted_text.txt", decrypted)
+
+def read_file_from(filename):
+    with open(filename, "r") as f:
+        return f.read()    
+
+def decrypt_char(c, shift1, shift2):
+    if c.islower():
+        if 'a' <= c <= 'm':
+            shift = shift1 * shift2
+            return chr((ord(c) - ord('a') - shift) % 26 + ord('a'))
+        elif 'n' <= c <= 'z':
+            shift = shift1 + shift2
+            return chr((ord(c) - ord('a') + shift) % 26 + ord('a'))
+
+    elif c.isupper():
+        if 'A' <= c <= 'M':
+            shift = shift1
+            return chr((ord(c) - ord('A') + shift) % 26 + ord('A'))
+        elif 'N' <= c <= 'Z':
+            shift = shift2 ** 2
+            return chr((ord(c) - ord('A') - shift) % 26 + ord('A'))
+
+    # VERY IMPORTANT fallback
+    return c  
+
 if __name__ == "__main__":
     main()
     
