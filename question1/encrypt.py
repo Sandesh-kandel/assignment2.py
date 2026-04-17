@@ -22,7 +22,9 @@ def main():
 
     decrypt_file(shift1, shift2)
 
-    print("Encryption and decryption complete.")
+    verify_files()
+
+    print("Process complete.")
 
 
 
@@ -96,8 +98,17 @@ def decrypt_char(c, shift1, shift2):
             shift = shift2 ** 2
             return chr((ord(c) - ord('A') - shift) % 26 + ord('A'))
 
-    # VERY IMPORTANT fallback
-    return c  
+    return c
+def verify_files():
+    original = read_file()
+    decrypted = read_file_from("decrypted_text.txt")
+
+    if original == decrypted:
+        print("Verification successful: Decryption matches original text")
+    else:
+        print("Verification failed: Files do not match")  
+
+
 
 if __name__ == "__main__":
     main()
