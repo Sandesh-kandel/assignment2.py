@@ -18,8 +18,9 @@ def main():
     for c in text:
         encrypted += encrypt_char(c, shift1, shift2)
 
-    print("Encrypted text:")
-    print(encrypted)
+    write_file("encrypted_text.txt", encrypted)
+
+    print("Encryption complete. Check encrypted_text.txt")
 
 
 
